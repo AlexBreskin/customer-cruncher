@@ -1,0 +1,11 @@
+﻿using CustomerCruncher.Application.Common.Interfaces;
+using CustomerCruncher.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace CustomerCruncher.Infrastructure.Persistence
+{
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    {
+        public DbSet<Customer> Customers { get; set; }
+    }
+}

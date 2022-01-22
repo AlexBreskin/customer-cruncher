@@ -8,7 +8,7 @@ A simple application which using ASP.Net Core and Swagger for adding, editing, d
 - Searching for a customer by partial name match, whether that is first name or last name
 
 # Technology
-- ASP.Net Core 5.1 API
+- ASP.Net Core 5 API
 - In memory entity framework store
 - Dependency Injection
 - XUnit

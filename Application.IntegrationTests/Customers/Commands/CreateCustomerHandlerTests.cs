@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using CustomerCruncher.Application.Contracts.Persistence;
 using CustomerCruncher.Application.Customers.Commands.CreateCustomer;
 
-namespace CustomersCruncher.Application.UnitTests.Customers.Queries
+namespace CustomersCruncher.Application.UnitTests.Customers.Commands
 {
     public class CreateCustomerHandlerTests
     {

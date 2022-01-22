@@ -51,5 +51,20 @@ namespace CustomerCruncher.Infrastructure.Persistence
             _dbContext.SaveChanges();
             return originalCustomer;
         }
+
+
+        public async Task<bool> DeleteCustomer(int Id)
+        {
+            var originalCustomer = await _dbContext.Customers.Where(q => q.Id == Id).FirstOrDefaultAsync();
+
+            if (originalCustomer == null)
+            {
+                return false;
+            }
+
+            _dbContext.Entry(originalCustomer).State = EntityState.Deleted;
+            _dbContext.SaveChanges();
+            return true;
+        }
     }
 }

@@ -47,6 +47,13 @@ namespace CustomerCruncher.Application.UnitTests.Mocks
                 return null;
             });
 
+            mockRepo.Setup(r => r.DeleteCustomer(It.IsAny<int>())).ReturnsAsync((int Id) =>
+            {
+                if (customers.Any(x => x.Id == Id))
+                    return true;
+                return false;
+            });
+
             return mockRepo;
         }
 

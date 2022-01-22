@@ -13,7 +13,7 @@ using CustomerCruncher.Application.Contracts.Persistence;
 using CustomerCruncher.Application.Customers.Commands.EditCustomer;
 using System;
 
-namespace CustomersCruncher.Application.UnitTests.Customers.Queries
+namespace CustomersCruncher.Application.UnitTests.Customers.Commands
 {
     public class EditCustomerHandlerTests
     {

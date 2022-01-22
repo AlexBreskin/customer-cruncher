@@ -1,10 +1,10 @@
 ﻿using CustomerCruncher.Application.Customers.Commands.CreateCustomer;
+using CustomerCruncher.Application.Customers.Commands.DeleteCustomer;
 using CustomerCruncher.Application.Customers.Commands.EditCustomer;
 using CustomerCruncher.Application.Customers.Queries.GetCustomers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -68,6 +68,27 @@ namespace API.Controllers
                 return BadRequest("Id does not match any existing customer");
 
             return Ok(customer);
+        }
+
+        /// <summary>
+        /// Delete an existing customer in the database
+        /// </summary>
+        /// <param name="Id">Customer's Id</param>
+        /// <returns>Whether the request was successful</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpDelete]
+        public async Task<ActionResult> DeleteCustomer(int Id)
+        {
+            var success = await _mediator.Send(new DeleteCustomerCommand
+            {
+                Id = Id,
+            });
+
+            if (success == false)
+                return BadRequest("Id does not match any existing customer");
+
+            return Ok();
         }
 
         /// <summary>

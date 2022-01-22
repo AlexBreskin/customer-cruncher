@@ -31,9 +31,9 @@ namespace CustomerCruncher.Application.UnitTests.Mocks
 
             var mockRepo = new Mock<ICustomerRepository>();
 
-            mockRepo.Setup(r => r.GetAll()).ReturnsAsync(customers);
+            mockRepo.Setup(r => r.GetAllCustomers()).ReturnsAsync(customers);
 
-            mockRepo.Setup(r => r.Add(It.IsAny<Customer>())).ReturnsAsync((Customer customer) =>
+            mockRepo.Setup(r => r.AddCustomer(It.IsAny<Customer>())).ReturnsAsync((Customer customer) =>
             {
                 customer.Id = customers.Max(x => x.Id) + 1;
                 customers.Add(customer);

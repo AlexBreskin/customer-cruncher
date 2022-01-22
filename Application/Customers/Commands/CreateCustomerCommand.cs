@@ -31,7 +31,7 @@ namespace CustomerCruncher.Application.Customers.Commands.CreateCustomer
                 LastName = request.LastName,
                 DateOfBirth = request.DateOfBirth,
             };
-            await _repo.Add(customer);
+            await _repo.AddCustomer(customer);
 
             return customer.Id;
         }

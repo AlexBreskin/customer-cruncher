@@ -22,7 +22,8 @@ namespace API.UnitTests
             string lastName = "Doe";
             DateTime dateOfBirth = new DateTime(1972, 1, 1);
 
-            controller.AddCustomer(firstName, lastName, dateOfBirth).Should().BeEquivalentTo(new OkObjectResult(true));
+            var result = controller.AddCustomer(firstName, lastName, dateOfBirth);
+            result.Should().BeEquivalentTo(new OkObjectResult(true));
         }
     }
 }

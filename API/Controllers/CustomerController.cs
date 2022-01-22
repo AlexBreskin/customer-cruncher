@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CustomerCruncher.Application.Customers.Commands.CreateCustomer;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -8,19 +12,32 @@ namespace API.Controllers
     [Route("[controller]")]
     public class CustomerController : ControllerBase
     {
+        private readonly IMediator _mediator;
+
+        public CustomerController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         /// <summary>
         /// Adds a new customer to the database
         /// </summary>
         /// <param name="firstname">Customer's first name</param>
         /// <param name="lastname">Customer's last name</param>
         /// <param name="dateOfBirth">Customer's date of birth</param>
-        /// <returns>Whether the action was completed - either 201 or 400</returns>
+        /// <returns>The assigned Id of the new customer</returns>
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut]
-        public IActionResult AddCustomer(string firstname, string lastname, DateTime dateOfBirth)
+        public async Task<ActionResult<int>> AddCustomer(string firstname, string lastname, DateTime dateOfBirth)
         {
-            return new OkObjectResult(true);
+            var customerId = await _mediator.Send(new CreateCustomerCommand
+            {
+                FirstName = firstname,
+                LastName = lastname,
+                DateOfBirth = dateOfBirth
+            });
+
+            return Created(string.Empty, customerId);
         }
     }
 }

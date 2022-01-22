@@ -28,7 +28,7 @@ namespace CustomerCruncher.Application.Customers.Queries.GetCustomers
 
         public async Task<List<CustomerDto>> Handle(GetCustomersQuery request, CancellationToken cancellationToken)
         {
-            var customers = await _repo.GetAll();
+            var customers = await _repo.GetAllCustomers();
             return _mapper.Map<List<CustomerDto>>(customers);
         }
     }

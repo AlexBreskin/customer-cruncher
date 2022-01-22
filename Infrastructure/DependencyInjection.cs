@@ -1,4 +1,6 @@
-﻿using CustomerCruncher.Application.Common.Interfaces;
+﻿using CustomerCruncher.Application.Contracts;
+using CustomerCruncher.Application.Contracts.Persistence;
+using CustomerCruncher.Infrastracture.Persistence.Repositories;
 using CustomerCruncher.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,9 +14,11 @@ namespace CustomerCruncher.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseInMemoryDatabase("CustomerCruncher"));
+                options.UseInMemoryDatabase(configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             return services;
         }

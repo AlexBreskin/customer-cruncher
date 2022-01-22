@@ -28,9 +28,26 @@ namespace API
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+
+            services.AddSwaggerDocument(config =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+                config.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "Customer Cruncher API";
+                    document.Info.Description = "A simple ASP.NET Core web API to add, search, edit and delete Customers";
+                    document.Info.Contact = new NSwag.OpenApiContact
+                    {
+                        Name = "Alex Breskin",
+                        Email = string.Empty,
+                        Url = "https://github.com/AlexBreskin"
+                    };
+                    document.Info.License = new NSwag.OpenApiLicense
+                    {
+                        Name = "Use under MIT",
+                        Url = "https://github.com/AlexBreskin/customer-cruncher/blob/main/LICENSE"
+                    };
+                };
             });
         }
 
@@ -40,9 +57,10 @@ namespace API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             app.UseHttpsRedirection();
 

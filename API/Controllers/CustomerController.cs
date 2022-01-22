@@ -3,8 +3,11 @@ using System;
 
 namespace API.Controllers
 {
-    public class CustomerController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class CustomerController : ControllerBase
     {
+        [HttpPut]
         public IActionResult AddCustomer(string firstname, string lastname, DateTime dateOfBirth)
         {
             return new OkObjectResult(true);

@@ -19,8 +19,6 @@ namespace CustomersCruncher.Application.UnitTests.Customers.Commands
     public class DeleteCustomerHandlerTests
     {
         private readonly Mock<ICustomerRepository> _mockRepo;
-        private readonly IMapper _mapper;
-
         public DeleteCustomerHandlerTests()
         {
             _mockRepo = MockCustomerRepository.GetRepository();

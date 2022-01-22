@@ -54,8 +54,8 @@ namespace API.Controllers
         /// <returns>The relevant customer information</returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost("AddCustomer")]
-        public async Task<ActionResult<CustomerDto>> AddCustomer(int Id, string firstname, string lastname, DateTime dateOfBirth)
+        [HttpPost("EditCustomer")]
+        public async Task<ActionResult<CustomerDto>> EditCustomer(int Id, string firstname, string lastname, DateTime dateOfBirth)
         {
             var customer = await _mediator.Send(new EditCustomerCommand
             {

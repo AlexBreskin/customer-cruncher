@@ -42,12 +42,12 @@ namespace CustomerCruncher.Infrastructure.Persistence
                 return null;
             }
 
-            if (customer.FirstName != null)
+            if (!string.IsNullOrEmpty(customer.FirstName))
                 originalCustomer.FirstName = customer.FirstName;
-            if (customer.LastName != null)
+            if (!string.IsNullOrEmpty(customer.LastName))
                 originalCustomer.LastName = customer.LastName;
-            if (customer.DateOfBirth != null)
-                originalCustomer.DateOfBirth = customer.DateOfBirth;
+
+            originalCustomer.DateOfBirth = customer.DateOfBirth;
 
             _dbContext.Entry(originalCustomer).State = EntityState.Modified;
             _dbContext.SaveChanges();

@@ -54,6 +54,11 @@ namespace CustomerCruncher.Application.UnitTests.Mocks
                 return false;
             });
 
+            mockRepo.Setup(r => r.GetCustomersByName(It.IsAny<string>())).ReturnsAsync((string searchParam) =>
+            {
+                return customers.Where(x => (x.FirstName + " " + x.LastName).Contains(searchParam)).ToList();
+            });
+
             return mockRepo;
         }
 

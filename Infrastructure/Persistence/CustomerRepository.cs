@@ -25,12 +25,14 @@ namespace CustomerCruncher.Infrastructure.Persistence
                .ToListAsync();
             return await customers;
         }
+
         public async Task<Customer> AddCustomer(Customer customer)
         {
             var entity = await _dbContext.AddAsync(customer);
             _dbContext.SaveChanges();
             return entity.Entity;
         }
+
         public async Task<Customer> EditCustomer(Customer customer)
         {
             var originalCustomer = await _dbContext.Customers.Where(q => q.Id == customer.Id).FirstOrDefaultAsync();
@@ -52,7 +54,6 @@ namespace CustomerCruncher.Infrastructure.Persistence
             return originalCustomer;
         }
 
-
         public async Task<bool> DeleteCustomer(int Id)
         {
             var originalCustomer = await _dbContext.Customers.Where(q => q.Id == Id).FirstOrDefaultAsync();
@@ -65,6 +66,17 @@ namespace CustomerCruncher.Infrastructure.Persistence
             _dbContext.Entry(originalCustomer).State = EntityState.Deleted;
             _dbContext.SaveChanges();
             return true;
+        }
+
+
+        public async Task<List<Customer>> GetCustomersByName(string searchParam)
+        {
+            var customers = _dbContext.Customers
+                .Where(x => (x.FirstName + " " + x.LastName).Contains(searchParam))
+                .OrderBy(x => x.Id)
+               .ToListAsync();
+
+            return await customers;
         }
     }
 }

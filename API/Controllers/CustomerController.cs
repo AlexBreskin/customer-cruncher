@@ -2,6 +2,7 @@
 using CustomerCruncher.Application.Customers.Commands.DeleteCustomer;
 using CustomerCruncher.Application.Customers.Commands.EditCustomer;
 using CustomerCruncher.Application.Customers.Queries.GetCustomers;
+using CustomerCruncher.Application.Customers.Queries.GetCustomersByName;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace API.Controllers
         /// <param name="dateOfBirth">Customer's date of birth</param>
         /// <returns>The assigned Id of the new customer</returns>
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [HttpPut]
+        [HttpPut("AddCustomer")]
         public async Task<ActionResult<int>> AddCustomer(string firstname, string lastname, DateTime dateOfBirth)
         {
             var customerId = await _mediator.Send(new CreateCustomerCommand
@@ -53,7 +54,7 @@ namespace API.Controllers
         /// <returns>The relevant customer information</returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost]
+        [HttpPost("AddCustomer")]
         public async Task<ActionResult<CustomerDto>> AddCustomer(int Id, string firstname, string lastname, DateTime dateOfBirth)
         {
             var customer = await _mediator.Send(new EditCustomerCommand
@@ -77,7 +78,7 @@ namespace API.Controllers
         /// <returns>Whether the request was successful</returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete]
+        [HttpDelete ("DeleteCustomer")]
         public async Task<ActionResult> DeleteCustomer(int Id)
         {
             var success = await _mediator.Send(new DeleteCustomerCommand
@@ -91,15 +92,33 @@ namespace API.Controllers
             return Ok();
         }
 
+
         /// <summary>
         /// Returns all current customers in the database
         /// </summary>
         /// <returns>All customers</returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpGet]
-        public async Task<ActionResult<List<CustomerDto>>> GetAllCustomers()
+        [HttpGet("AllCustomers")]
+        public async Task<ActionResult<List<CustomerDto>>> AllCustomers()
         {
             var customers = await _mediator.Send(new GetCustomersQuery());
+            return Ok(customers);
+        }
+
+        /// <summary>
+        /// Returns all customers that have a name that matches the given search parameter
+        /// </summary>
+        /// <param name="searchParam">The search parameter</param>
+        /// <returns>All customers matching the search parameter</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet("CustomersByName")]
+        public async Task<ActionResult<List<CustomerDto>>> CustomersByName(string searchParam)
+        {
+            List<CustomerDto> customers = await _mediator.Send(new GetCustomersByNameQuery
+            {
+                searchParam = searchParam
+            });
+
             return Ok(customers);
         }
     }

@@ -40,6 +40,13 @@ namespace CustomerCruncher.Application.UnitTests.Mocks
                 return customer;
             });
 
+            mockRepo.Setup(r => r.EditCustomer(It.IsAny<Customer>())).ReturnsAsync((Customer customer) =>
+            {
+                if (customers.Any(x => x.Id == customer.Id))
+                    return customer;
+                return null;
+            });
+
             return mockRepo;
         }
 

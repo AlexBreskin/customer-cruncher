@@ -28,7 +28,28 @@ namespace CustomerCruncher.Infrastructure.Persistence
         public async Task<Customer> AddCustomer(Customer customer)
         {
             var entity = await _dbContext.AddAsync(customer);
+            _dbContext.SaveChanges();
             return entity.Entity;
+        }
+        public async Task<Customer> EditCustomer(Customer customer)
+        {
+            var originalCustomer = await _dbContext.Customers.Where(q => q.Id == customer.Id).FirstOrDefaultAsync();
+
+            if (originalCustomer == null)
+            {
+                return null;
+            }
+
+            if (customer.FirstName != null)
+                originalCustomer.FirstName = customer.FirstName;
+            if (customer.LastName != null)
+                originalCustomer.LastName = customer.LastName;
+            if (customer.DateOfBirth != null)
+                originalCustomer.DateOfBirth = customer.DateOfBirth;
+
+            _dbContext.Entry(originalCustomer).State = EntityState.Modified;
+            _dbContext.SaveChanges();
+            return originalCustomer;
         }
     }
 }
